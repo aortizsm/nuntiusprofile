@@ -1,0 +1,18 @@
+.block_profile {
+    text-align: center;
+}
+
+.block_profile img.profilepicture {
+    height: 100px;
+    width: 100px;
+}
+
+.block_profile .profileitem.fullname {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+/*.myprofileitem.edit {
+    text-align: right;
+}*/
+
