@@ -21,7 +21,7 @@ class block_profile_edit_form extends block_edit_form {
      */
     protected function specific_definition($mform) {
 
-        global $COURSE, $CFG;
+        //global $COURSE, $CFG;
 
         $helper = new profile_helper();
         $mform->addElement('header', 'configheader', $helper->get_string('header_settings'));

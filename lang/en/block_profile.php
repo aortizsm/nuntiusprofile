@@ -19,5 +19,6 @@ $string['sendmessage'] = 'Enviar un mensaje';
 $string['title'] = 'Profile';
 $string['roles'] = '¿Que rol mostraremos en el curso?';
 $string['messagenoteacher'] = '¿Que mensaje mostraremos si no encontramos el rol?';
-$string['noteacher_default'] = ' ';
+$string['noteacher_default'] = 'Sin mensaje configurado';
+$string['lastaccess'] = 'Sin acceso reciente';
 

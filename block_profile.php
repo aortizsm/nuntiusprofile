@@ -7,7 +7,7 @@ defined('MOODLE_INTERNAL') || die();
  * @package    block
  * @subpackage profile
  * @copyright  2020 Alberto Ortiz
- * @author     Alberto Ortiz <aortizsm@gmail.com>
+ * @author Alberto Ortiz Acevedo <alberto@aortiz.cl>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 include_once realpath(dirname(__FILE__)) . '/classes/profile_helper.php';
@@ -23,7 +23,8 @@ class block_profile extends block_base {
 
     public function get_content() {
 
-        global $USER, $COURSE, $OUTPUT, $CFG;
+        global $USER, $COURSE;
+
         $context = context_course::instance($COURSE->id);
 
 
@@ -46,98 +47,61 @@ class block_profile extends block_base {
 
         //obtenemos el curso
         $course = $this->page->course;
+        var_dump($this->config->noteacher);
+        
 
         switch ($course->groupmode) {
-            case '0': //No esta el modo grupo activo
-                $counter = 0;
+            case '0': //Group mode not active
                 $users = enrol_get_course_users($COURSE->id);
-
                 foreach ($users as $user) {
                     $roles = get_user_roles($context, $user->id, true);
                     foreach ($roles as $role) {
                         if ($role->roleid === $this->config->role) {
-                            $this->content->text .= '<div class="profileitem picture">';
-                            $this->content->text .= $OUTPUT->user_picture($user, array('courseid' => $COURSE->id, 'size' => '100%', 'class' => 'profilepicture'));
-                            $this->content->text .= '</div>';
-                            $this->content->text .= '<div class="profileitem fullname">' . fullname($user) . '</div>';
-                            // Enviar mensaje
-                            $this->content->text .= '<div class="profileitem message">';
-                            $this->content->text .= $OUTPUT->pix_icon('i/email', get_string('email'));
-                            $this->content->text .= '<span><a href="' . $CFG->wwwroot . '/message/index.php?id=' . $user->id . '" target="_blank">' . $this->helper->get_string('sendmessage') . '</a></span>';
-                            $this->content->text .= '</div>';
-                            // email
-                            $this->content->text .= '<div class="profileitem email">';
-                            $this->content->text .= $OUTPUT->pix_icon('i/email', get_string('email')) . obfuscate_mailto($user->email, '');
-                            $this->content->text .= '</div>';
-                            // ultimo acceso
-                            $this->content->text .= '<div class="lastaccess">';
-                            $this->content->text .= '<strong>' . get_string('lastaccess') . '</strong><span> ' . format_time($user->lastaccess) . '<span>';
-                            $this->content->text .= '</div>';
-                            $counter++;
+                            $this->content->text .= $this->helper->render_html($user);
+                        } else {
+                            //not match in role
+                            $this->content->text = $this->helper->no_user_found($this->config->noteacher);
+                            
                         }
                     }
                 }
                 break;
-            case '1': case '2':  //Tenemos el modo grupo activo
-                //obtenemos los grupos
+            case '1': case '2':  //Group mode active
+                //we got all groups in context course
                 $groupsid = groups_get_user_groups($COURSE->id, $USER->id);
                 $groupid = key($groupsid);
                 $ids = $groupsid[$groupid];
                 $counter = 0;
 
-                if (empty($groupsid[0])) {
-                    //el usuario logeuado no tiene grupo
-                    $this->content->text = $this->no_user_found();
+                if (empty($groupsid[0]) || is_null($groupsid)) {
+                    //userlogged doesn't any group
+                    $this->content->text = $this->helper->no_user_found($this->config->noteacher);
                 } else {
-                    //el usuario logeuado tiene grupo
                     foreach ($ids as $id) {
                         $users = groups_get_members($id);
                         foreach ($users as $user) {
                             $roles = get_user_roles($context, $user->id, true);
                             foreach ($roles as $role) {
                                 if ($role->roleid === $this->config->role) {
-                                    //encontramos usuarios
-                                    $this->content->text .= '<div class="profileitem picture">';
-                                    $this->content->text .= $OUTPUT->user_picture($user, array('courseid' => $COURSE->id, 'size' => '100%', 'class' => 'profilepicture'));
-                                    $this->content->text .= '</div>';
-                                    $this->content->text .= '<div class="profileitem fullname">' . fullname($user) . '</div>';
-                                    // Enviar mensaje
-                                    $this->content->text .= '<div class="profileitem message">';
-                                    $this->content->text .= $OUTPUT->pix_icon('i/email', get_string('email'));
-                                    $this->content->text .= '<span><a href="' . $CFG->wwwroot . '/message/index.php?id=' . $user->id . '" target="_blank">' . $this->helper->get_string('sendmessage') . '</a></span>';
-                                    $this->content->text .= '</div>';
-                                    // email
-                                    $this->content->text .= '<div class="profileitem email">';
-                                    $this->content->text .= $OUTPUT->pix_icon('i/email', get_string('email')) . obfuscate_mailto($user->email, '');
-                                    $this->content->text .= '</div>';
-                                    // ultimo acceso
-                                    $this->content->text .= '<div class="lastaccess">';
-                                    $this->content->text .= '<strong>' . get_string('lastaccess') . '</strong><span> ' . format_time($user->lastaccess) . '<span>';
-                                    $this->content->text .= '</div>';
+                                    $this->content->text = $this->helper->render_html($user);
                                     $counter++;
+                                } else {
+                                    $this->content->text = $this->helper->no_user_found($this->config->noteacher);
                                 }
                             }
                         }
                     }
 
                     if ($counter == 0) {
-                        $this->content->text = $this->no_user_found();
+                        $this->content->text = $this->helper->no_user_found($this->config->noteacher);
                     }
                 }
                 break;
-            default: //cualquier otro
-                $this->content->text = $this->no_user_found();
+            default: 
+                $this->content->text = $this->helper->no_user_found($this->config->noteacher);
                 break;
         }
         return $this->content;
-    }
-
-    public function no_user_found() {
-
-        $text = '<div class="profileitem">';
-        $text .= $this->config->noteacher;
-        $text .= '</div>';
-        return $text;
     }
 
     function _self_test() {
