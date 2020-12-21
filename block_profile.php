@@ -47,22 +47,21 @@ class block_profile extends block_base {
 
         //obtenemos el curso
         $course = $this->page->course;
-        var_dump($this->config->noteacher);
-        
 
         switch ($course->groupmode) {
             case '0': //Group mode not active
+                $counter = 0;
                 $users = enrol_get_course_users($COURSE->id);
                 foreach ($users as $user) {
                     $roles = get_user_roles($context, $user->id, true);
                     foreach ($roles as $role) {
                         if ($role->roleid === $this->config->role) {
                             $this->content->text .= $this->helper->render_html($user);
-                        } else {
-                            //not match in role
-                            $this->content->text = $this->helper->no_user_found($this->config->noteacher);
-                            
-                        }
+                            $counter++;
+                        } 
+                    }
+                                        if ($counter == 0) {
+                        $this->content->text = $this->helper->no_user_found($this->config->noteacher);
                     }
                 }
                 break;
@@ -73,7 +72,7 @@ class block_profile extends block_base {
                 $ids = $groupsid[$groupid];
                 $counter = 0;
 
-                if (empty($groupsid[0]) || is_null($groupsid)) {
+                if (empty($groupsid[0])) {
                     //userlogged doesn't any group
                     $this->content->text = $this->helper->no_user_found($this->config->noteacher);
                 } else {
@@ -85,9 +84,7 @@ class block_profile extends block_base {
                                 if ($role->roleid === $this->config->role) {
                                     $this->content->text = $this->helper->render_html($user);
                                     $counter++;
-                                } else {
-                                    $this->content->text = $this->helper->no_user_found($this->config->noteacher);
-                                }
+                                } 
                             }
                         }
                     }
@@ -97,7 +94,7 @@ class block_profile extends block_base {
                     }
                 }
                 break;
-            default: 
+            default:
                 $this->content->text = $this->helper->no_user_found($this->config->noteacher);
                 break;
         }
