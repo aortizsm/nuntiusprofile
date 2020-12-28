@@ -58,9 +58,9 @@ class block_profile extends block_base {
                         if ($role->roleid === $this->config->role) {
                             $this->content->text .= $this->helper->render_html($user);
                             $counter++;
-                        } 
+                        }
                     }
-                                        if ($counter == 0) {
+                    if ($counter == 0) {
                         $this->content->text = $this->helper->no_user_found($this->config->noteacher);
                     }
                 }
@@ -84,7 +84,7 @@ class block_profile extends block_base {
                                 if ($role->roleid === $this->config->role) {
                                     $this->content->text = $this->helper->render_html($user);
                                     $counter++;
-                                } 
+                                }
                             }
                         }
                     }
