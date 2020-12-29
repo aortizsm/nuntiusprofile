@@ -11,7 +11,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_profile';
-$plugin->version = 2018111000 ;
+$plugin->version = 2018111000;
 $plugin->requires = 2014111000;
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release = '0.2';

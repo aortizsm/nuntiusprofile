@@ -10,15 +10,14 @@ defined('MOODLE_INTERNAL') || die();
  * @author     Alberto Ortiz <aortizsm@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 $string['pluginname'] = 'Profile';
-$string['profile:addinstance'] = 'Añadir un nuevo bloque Profile';
-$string['profile:myaddinstance'] = 'Añadir un nuevo Profile a mi home';
-$string['header_settings'] = 'Configuraciones generales del plugin';
-$string['sendmessage'] = 'Enviar un mensaje';
+$string['profile:addinstance'] = 'Add a new block Profile';
+$string['profile:myaddinstance'] = 'Add a new Profile to my home';
+$string['header_settings'] = 'General plugin settings';
+$string['sendmessage'] = 'Send a message';
 $string['title'] = 'Profile';
-$string['roles'] = '¿Que rol mostraremos en el curso?';
-$string['messagenoteacher'] = '¿Que mensaje mostraremos si no encontramos el rol?';
-$string['noteacher_default'] = 'Sin mensaje configurado';
-$string['lastaccess'] = 'Sin acceso reciente';
+$string['roles'] = 'What role will we show in the course?';
+$string['messagenoteacher'] = "¿What message will we show if we can't find the role";
+$string['noteacher_default'] = 'No message configured';
+$string['lastaccess'] = 'No recent access';
 

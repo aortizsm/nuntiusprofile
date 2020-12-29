@@ -118,6 +118,11 @@ class profile_helper {
         return $text;
     }
 
+    /**
+     * 
+     * @param string $condition
+     * @return string
+     */
     public function no_user_found($condition) {
 
         $text = '<div class="profileitem">';
