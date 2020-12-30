@@ -5,14 +5,14 @@ defined('MOODLE_INTERNAL') || die();
 /**
  *
  * @package    block
- * @subpackage nuntius
+ * @subpackage nuntiusprofile
  * @copyright  2020 Alberto Ortiz
  * @author Alberto Ortiz Acevedo <alberto@aortiz.cl>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class profile_helper {
 
-    private $name = 'nuntius';
+    private $name = 'nuntiusprofile';
 
     /**
      * Get string name from lang file
