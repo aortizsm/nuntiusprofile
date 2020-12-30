@@ -5,14 +5,14 @@ defined('MOODLE_INTERNAL') || die();
 /**
  *
  * @package    block
- * @subpackage profile
+ * @subpackage nuntius
  * @copyright  2020 Alberto Ortiz
  * @author Alberto Ortiz Acevedo <alberto@aortiz.cl>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 include_once realpath(dirname(__FILE__)) . '/classes/profile_helper.php';
 
-class block_profile extends block_base {
+class block_nuntius extends block_base {
 
     private $helper;
 

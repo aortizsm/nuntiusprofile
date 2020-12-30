@@ -4,7 +4,7 @@ defined('MOODLE_INTERNAL') || die();
 
 /*
  * @package    block
- * @subpackage profile
+ * @subpackage nuntius
  * @copyright  2020 Alberto Ortiz
  * @author     Alberto Ortiz <aortizsm@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -12,7 +12,7 @@ defined('MOODLE_INTERNAL') || die();
 
 include_once realpath(dirname(__FILE__)) . '/classes/profile_helper.php';
 
-class block_profile_edit_form extends block_edit_form {
+class block_nuntius_edit_form extends block_edit_form {
 
     /**
      * 
@@ -25,7 +25,7 @@ class block_profile_edit_form extends block_edit_form {
 
         $helper = new profile_helper();
         $mform->addElement('header', 'configheader', $helper->get_string('header_settings'));
-        $mform->addElement('text', 'config_title', $helper->get_string('pluginname'));
+        $mform->addElement('text', 'config_title', $helper->get_string('pluginname_setting'));
         $mform->setType('config_title', PARAM_MULTILANG);
         $roles = $helper->get_roles($this->page->context);
         $roles = array(0 => get_string('choosedots')) + $roles;
